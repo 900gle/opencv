@@ -1,7 +1,14 @@
 # opencv
 [참고]
  * https://opencv-java-tutorials.readthedocs.io/en/latest/01-installing-opencv-for-java.html
- * https://ldh-6019.tistory.com/48
+ * https://ldh-6019.tistory.com/48 
+ 
+###개발환경
+- java 14 
+- opencv 4.5
+- springboot, gradle
+- MacOS
+ 
 ####MacOS
 ant 설치 
 
