@@ -18,6 +18,8 @@ repositories {
     mavenCentral()
 }
 
+def swaggerVersion = '2.5.0'
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -27,6 +29,8 @@ dependencies {
     compile fileTree(dir: './libs', include: ['*.jar'])
 //    compile fileTree(dir: './libs', include: ['*'])
 
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: swaggerVersion
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: swaggerVersion
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }

@@ -32,9 +32,7 @@ public class TemplateMatching {
                 matchLoc.y + template.rows()), new Scalar(255, 255, 255));
 
 
-
-
-        Imgcodecs.imwrite(filePath+"result.png", source);
+        Imgcodecs.imwrite(filePath+"template_matching.png", source);
         System.out.println("Complated.");
     }
 }
