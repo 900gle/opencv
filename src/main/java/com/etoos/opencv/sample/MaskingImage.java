@@ -25,12 +25,22 @@ public class MaskingImage {
         Core.MinMaxLocResult mmr = Core.minMaxLoc(outputImage);
         Point matchLoc=mmr.maxLoc;
 
+//        Imgproc.rectangle(source, matchLoc, new Point(matchLoc.x + template.cols(),
+//                matchLoc.y + template.rows()), new Scalar(255, 255, 255));
+
+
+
         Imgproc.rectangle(source, matchLoc, new Point(matchLoc.x + template.cols(),
-                matchLoc.y + template.rows()), new Scalar(255, 255, 255));
+                matchLoc.y + template.rows()), new Scalar(255, 255, 255, 0));
 
 
-        Imgcodecs.imwrite(filePath+"template_masking.png", source);
-        System.out.println("Complated.");
+        HighGui.imshow("masking test", source);
+        HighGui.waitKey();
+
+
+
+//        Imgcodecs.imwrite(filePath+"template_masking.png", source);
+//        System.out.println("Complated.");
 
 
 
