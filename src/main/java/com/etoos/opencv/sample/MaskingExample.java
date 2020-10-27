@@ -16,7 +16,7 @@ public class MaskingExample {
         //Reading the input image
 
         String filePath="./images/";
-        String file = "masking_an_image.jpg";
+        String file = "avengers.jpg";
 
         Mat src = Imgcodecs.imread(filePath+ file);
         //Creating an empty matrix to store the result

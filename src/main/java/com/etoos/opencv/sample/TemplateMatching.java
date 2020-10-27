@@ -18,8 +18,8 @@ public class TemplateMatching {
         Mat template=null;
         String filePath="./images/";
 
-        source= Imgcodecs.imread(filePath+"resource.png");
-        template=Imgcodecs.imread(filePath+"temp.png");
+        source= Imgcodecs.imread(filePath+"avengers.jpg");
+        template=Imgcodecs.imread(filePath+"title.png");
 
         Mat outputImage=new Mat();
         int machMethod= Imgproc.TM_CCOEFF;

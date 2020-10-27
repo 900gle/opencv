@@ -12,7 +12,7 @@ public class CropImage {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         String filePath="./images/";
 
-        Mat img = Imgcodecs.imread(filePath + "faces_in_image.jpg", Imgcodecs.IMREAD_COLOR);
+        Mat img = Imgcodecs.imread(filePath + "avengers.jpg", Imgcodecs.IMREAD_COLOR);
         Rect rectCrop = new Rect(100,20,300,200);
         Mat subImage= new Mat(img, rectCrop);
 //        Imgcodecs.imwrite(filePath +"2.png",subImage);

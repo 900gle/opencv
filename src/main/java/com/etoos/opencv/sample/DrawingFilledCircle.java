@@ -22,7 +22,7 @@ public class DrawingFilledCircle {
         String filePath="./images/";
 
 
-        Mat src = Imgcodecs.imread(filePath+"faces_in_image.jpg");
+        Mat src = Imgcodecs.imread(filePath+"avengers.jpg");
         //Drawing a Circle
         Point center = new Point(300, 200);
         int radius =100;

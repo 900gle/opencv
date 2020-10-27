@@ -9,14 +9,13 @@ public class MaskingImage {
 
     public static void main(String[] args) {
 
-
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         Mat source=null;
         Mat template=null;
         String filePath="./images/";
 
-        source= Imgcodecs.imread(filePath+"resource.png");
-        template=Imgcodecs.imread(filePath+"temp.png");
+        source= Imgcodecs.imread(filePath+"avengers.jpg");
+        template=Imgcodecs.imread(filePath+"title.png");
 
         Mat outputImage=new Mat();
         int machMethod= Imgproc.TM_CCOEFF;
@@ -28,15 +27,12 @@ public class MaskingImage {
 //        Imgproc.rectangle(source, matchLoc, new Point(matchLoc.x + template.cols(),
 //                matchLoc.y + template.rows()), new Scalar(255, 255, 255));
 
-
-
         Imgproc.rectangle(source, matchLoc, new Point(matchLoc.x + template.cols(),
                 matchLoc.y + template.rows()), new Scalar(255, 255, 255, 0));
 
 
         HighGui.imshow("masking test", source);
         HighGui.waitKey();
-
 
 
 //        Imgcodecs.imwrite(filePath+"template_masking.png", source);

@@ -12,7 +12,7 @@ public class FaceDetection {
         //Loading the OpenCV core library
         System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
         //Reading the Image from the file
-        String file ="./images/faces_in_image.jpg";
+        String file ="./images/avengers.jpg";
         Mat src = Imgcodecs.imread(file);
         //Instantiating the CascadeClassifier
         String xmlFile = "lbpcascade_frontalface.xml";

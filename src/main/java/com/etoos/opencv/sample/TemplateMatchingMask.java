@@ -18,8 +18,8 @@ public class TemplateMatchingMask {
         Mat template=null;
         String filePath="./images/";
 
-        source= Imgcodecs.imread(filePath+"resource.png");
-        template=Imgcodecs.imread(filePath+"temp.png");
+        source= Imgcodecs.imread(filePath+"avengers.jpg");
+        template=Imgcodecs.imread(filePath+"title.png");
 
         Mat outputImage=new Mat();
         int machMethod= Imgproc.TM_CCOEFF;
@@ -33,10 +33,10 @@ public class TemplateMatchingMask {
         Imgproc.rectangle(source, matchLoc, new Point(matchLoc.x + template.cols(),
                 matchLoc.y + template.rows()), new Scalar(0,0,0), thickness);
 
-        HighGui.imshow("masking test", source);
+        HighGui.imshow("masking fill test", source);
         HighGui.waitKey();
 
-        Imgcodecs.imwrite(filePath+"masking_fill_back.png", source);
+        Imgcodecs.imwrite(filePath+"masking_fill_black.png", source);
         System.out.println("Complated.");
     }
 }
