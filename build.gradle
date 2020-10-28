@@ -29,6 +29,11 @@ dependencies {
     compile fileTree(dir: './libs', include: ['*.jar'])
 //    compile fileTree(dir: './libs', include: ['*'])
 
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+
+    compile 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0'
+
     compile group: 'io.springfox', name: 'springfox-swagger2', version: swaggerVersion
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: swaggerVersion
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
