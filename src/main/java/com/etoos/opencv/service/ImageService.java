@@ -1,6 +1,7 @@
 package com.etoos.opencv.service;
 
 import com.etoos.opencv.dto.PointDTO;
+import com.etoos.opencv.model.response.CommonResult;
 import com.etoos.opencv.proc.MaskingImageProcess;
 import com.etoos.opencv.proc.TemplateImageProcess;
 import lombok.RequiredArgsConstructor;
@@ -12,20 +13,22 @@ public class ImageService {
 
     private final TemplateImageProcess templateImageProcess;
     private final MaskingImageProcess maskingImageProcess;
+    private final ResponseService responseService;
 
-    public String postTemplateMaskingImage(){
+    public CommonResult postTemplateMaskingImage(){
         if(templateImageProcess.process()){
-            return "Complated";
+            return responseService.getSuccessResult();
         } else {
-            return "ERROR";
+            return responseService.getFailResult();
         }
     }
 
-    public String postPointMaskingImage(PointDTO pointDTO){
+    public CommonResult postPointMaskingImage(PointDTO pointDTO){
+
         if(maskingImageProcess.process(pointDTO)){
-            return "Complated";
+            return responseService.getSuccessResult();
         } else {
-            return "ERROR";
+            return responseService.getFailResult();
         }
     }
 }

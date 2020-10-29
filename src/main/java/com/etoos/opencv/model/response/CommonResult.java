@@ -17,7 +17,5 @@ public class CommonResult {
     @ApiModelProperty(value = "응답 메시지 : true / false")
     protected String msg;
 
-    @ApiModelProperty(value = "응답 메시지 : true / false")
-    private String version = "latest";
 
 }

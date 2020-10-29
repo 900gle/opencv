@@ -20,19 +20,30 @@ repositories {
 
 def swaggerVersion = '2.5.0'
 
+def mysqlVersion = '5.1.47'
+
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'junit:junit:4.12'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     compile fileTree(dir: './libs', include: ['*.jar'])
 //    compile fileTree(dir: './libs', include: ['*'])
 
+    //    compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: mybatisVersion
+    compile('org.springframework.boot:spring-boot-starter-jdbc')
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    compile group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.3.4.RELEASE'
+
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-
-
     compile 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0'
+
+//    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 
     compile group: 'io.springfox', name: 'springfox-swagger2', version: swaggerVersion
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: swaggerVersion
