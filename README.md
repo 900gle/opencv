@@ -3,14 +3,14 @@
  * https://opencv-java-tutorials.readthedocs.io/en/latest/01-installing-opencv-for-java.html
  * https://ldh-6019.tistory.com/48 
  
-###개발환경
+### 개발환경
 - java 14 
 - opencv 4.5
 - springboot, gradle
 - MacOS
  
-####MacOS
-#####ant 설치 
+#### MacOS
+##### ant 설치 
 
 ```brew install ant```
 
@@ -31,7 +31,7 @@ brew install --build-from-source opencv
 
 
 
-####인텔리제이
+#### 인텔리제이
 VM option  
 -Djava.library.path=/opencv/build/lib 경
 
