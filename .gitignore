@@ -32,3 +32,15 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+## custom ##
+.gradle/*
+*/out/
+*/gradle/
+*/build/templates/
+common/build/
+batch/build/
+web/build/
+api/build/
+indexer/build/
