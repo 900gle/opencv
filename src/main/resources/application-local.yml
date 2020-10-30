@@ -9,7 +9,7 @@ spring:
   profiles: local
 
   datasource:
-    url: jdbc:mysql://localhost:3306/doo?zeroDateTimeBehavior=convertToNull&useSSL=false
+    url: jdbc:mysql://localhost:3306/doo?zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true&useSSL=false
     username: ldh
     password: doo
     driver-class-name: com.mysql.jdbc.Driver
