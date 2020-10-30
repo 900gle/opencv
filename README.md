@@ -30,7 +30,6 @@ brew install --build-from-source opencv
 ```
 
 
-
 #### 인텔리제이
 VM option  
 -Djava.library.path=/opencv/build/lib 경
@@ -42,3 +41,7 @@ VM option
 * http://localhost:8080/swagger-ui.html#/  
 #### web
 * http://localhost:8080/file/
+
+
+#### DB
+mysql 
