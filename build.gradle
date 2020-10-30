@@ -1,57 +1,106 @@
-plugins {
-    id 'org.springframework.boot' version '2.3.4.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-    id 'java'
-}
-
-group = 'com.etoos'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '14'
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+buildscript {
+    ext {
+        springBootVersion = '2.3.4.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.10.RELEASE"
     }
 }
 
-repositories {
-    mavenCentral()
-}
+subprojects {
 
-def swaggerVersion = '2.5.0'
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 
-def mysqlVersion = '5.1.47'
+    group = 'com.etoos'
+    version = '0.0.0'
+    sourceCompatibility = '14'
+
+    repositories {
+        mavenCentral()
+    }
 
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'junit:junit:4.12'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    //Spring Boot Overriding
+    ext['hibernate.version'] = '5.2.11.Final' //추가
 
-    compile fileTree(dir: './libs', include: ['*.jar'])
-//    compile fileTree(dir: './libs', include: ['*'])
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
 
-    //    compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: mybatisVersion
-    compile('org.springframework.boot:spring-boot-starter-jdbc')
-    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    compile group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.3.4.RELEASE'
+    task initSourceFolders {
+        sourceSets*.java.srcDirs*.each {
+            if (!it.exists()) {
+                it.mkdirs()
+            }
+        }
 
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-    compile 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0'
+        sourceSets*.resources.srcDirs*.each {
+            if (!it.exists()) {
+                it.mkdirs()
+            }
+        }
+    }
+    def swaggerVersion = '2.5.0'
+    def mysqlVersion = '5.1.47'
+    def mybatisVersion = '2.0.0'
+    dependencies {
+
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'junit:junit:4.12'
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        compile fileTree(dir: './libs', include: ['*.jar'])
+
+        //    compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: mybatisVersion
+        compile('org.springframework.boot:spring-boot-starter-jdbc')
+        // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+        compile group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
+
+
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+        compile 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0'
 
 //    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: swaggerVersion
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: swaggerVersion
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }
 
-test {
-    useJUnitPlatform()
+project(':api') {
+    dependencies {
+        compile project(':common')
+    }
+}
+
+project(':batch') {
+    dependencies {
+        compile project(':common')
+    }
+}
+
+project(':web') {
+    dependencies {
+        compile project(':common')
+    }
+}
+
+project(':indexer') {
+    dependencies {
+        compile project(':common')
+    }
 }
