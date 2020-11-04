@@ -1,4 +1,4 @@
-package opencv.domain.image;
+package com.etoos.opencv.domain.image;
 
 import lombok.AccessLevel;
 import lombok.Builder;

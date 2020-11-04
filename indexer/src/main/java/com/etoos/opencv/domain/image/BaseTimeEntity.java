@@ -1,4 +1,4 @@
-package opencv.domain.image;
+package com.etoos.opencv.domain.image;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
