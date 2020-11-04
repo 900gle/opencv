@@ -4,7 +4,7 @@ package com.etoos.opencv.controller;
 import com.etoos.opencv.dto.PointDTO;
 import com.etoos.opencv.model.response.CommonResult;
 import com.etoos.opencv.model.response.RestApiResponse;
-import com.etoos.opencv.service.ImageService;
+import com.etoos.opencv.service.ImageMaskingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -16,21 +16,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
 
 @RestController
 @Api(tags = "1. Opencv image Apis")
-@RequestMapping("api/images")
+@RequestMapping("api/masking")
 @RequiredArgsConstructor
-public class ImageRestController {
+public class ImageMaskingRestController {
 
-    private final ImageService imageService;
+    private final ImageMaskingService imageMaskingService;
 
     @CrossOrigin("*")
     @ApiOperation(value = "template masking", notes = "이미지 템플릿 마스킹")
     @PostMapping("template")
     public RestApiResponse postImageTemplate() {
-        return new RestApiResponse<>(imageService.postTemplateMaskingImage());
+        return new RestApiResponse<>(imageMaskingService.postTemplateMaskingImage());
     }
 
     @CrossOrigin("*")
@@ -49,7 +48,7 @@ public class ImageRestController {
             String filePath = baseDir + "//" + file.getOriginalFilename();
             file.transferTo(new File(filePath));
 
-            return imageService.postPointMaskingImage(
+            return imageMaskingService.postPointMaskingImage(
                     PointDTO.builder()
                             .x(x)
                             .y(y)

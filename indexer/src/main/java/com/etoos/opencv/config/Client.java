@@ -59,6 +59,9 @@ public class Client {
                 new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY,
                 new UsernamePasswordCredentials(id, password));
+
+
+
         return credentialsProvider;
     }
 }

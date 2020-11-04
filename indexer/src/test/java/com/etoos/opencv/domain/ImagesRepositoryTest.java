@@ -1,7 +1,7 @@
 package com.etoos.opencv.domain;
 
-import opencv.domain.image.Images;
-import opencv.repository.ImagesRepository;
+import com.etoos.opencv.domain.image.Images;
+import com.etoos.opencv.repository.ImagesRepository;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
