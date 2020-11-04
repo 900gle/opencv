@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ImageService {
+public class ImageMaskingService {
 
     private final TemplateImageProcess templateImageProcess;
     private final MaskingImageProcess maskingImageProcess;
