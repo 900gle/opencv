@@ -18,7 +18,7 @@ public class ImageIndexerRestController {
     private final ImageIndexService imageIndexService;
 
     @CrossOrigin("*")
-    @ApiOperation(value = "index", notes = "이미지 검색")
+    @ApiOperation(value = "index", notes = "이미지 검색 색인 테스트")
     @PostMapping("images")
     public CommonResult staticIndexer(){
 

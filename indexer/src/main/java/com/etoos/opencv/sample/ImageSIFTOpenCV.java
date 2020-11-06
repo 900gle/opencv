@@ -1,14 +1,14 @@
 package com.etoos.opencv.sample;
 
 import info.debatty.java.lsh.LSHMinHash;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfKeyPoint;
-import org.opencv.core.Scalar;
+import org.opencv.core.*;
 import org.opencv.features2d.Features2d;
 import org.opencv.features2d.SIFT;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
+
+import java.util.List;
+import java.util.Vector;
 
 public class ImageSIFTOpenCV {
 
@@ -21,9 +21,9 @@ public class ImageSIFTOpenCV {
     }
     static int  i =1;
 
-//    static int stages = 2;
-//    static int buckets = 10;
-//    static int n = 100;
+    static int stages = 2;
+    static int buckets = 10;
+    static int n = 100;
 
 
     public static void showLennaSIFT() {
@@ -32,25 +32,36 @@ public class ImageSIFTOpenCV {
             String filePath="/Users/doo/project/opencv/images/";
 //            String filePath="./img/";
 
-            Mat imageAvengers = Imgcodecs.imread(filePath+"avengers.jpg");
-            // Start SIFT KeyPoint
+            Mat imageAvengers = Imgcodecs.imread(filePath+"title.png");
             MatOfKeyPoint keyPointOfAvengers = new MatOfKeyPoint();
             SIFT.create().detect(imageAvengers, keyPointOfAvengers);
 
 
             System.out.println(keyPointOfAvengers);
 
-//            LSHMinHash lsh = new LSHMinHash(stages, buckets, n);
-
+            LSHMinHash lsh = new LSHMinHash(stages, buckets, n);
 
 //            lsh.hash()
+//            keyPointOfAvengers.toList().stream().forEach(x-> {System.out.println( x); i++;} );
 
-            keyPointOfAvengers.toList().stream().forEach(x-> {System.out.println( x); i++;} );
+            Vector<KeyPoint> keyPointVector = new Vector<>();
+            List<KeyPoint> keyPoints = keyPointOfAvengers.toList();
 
+            for (KeyPoint keyPoint : keyPoints) {
+
+
+                keyPointVector.add(keyPoint);
+                System.out.println(keyPoint);
+//                i++;
+            }
+
+
+
+//            keyPointVector.stream().forEach(x-> System.out.println(x));
 
             System.out.println(" int i ::: "+ i);
 
-            System.out.println("keyPointOfAvengers : " + keyPointOfAvengers);
+//            System.out.println("keyPointOfAvengers : " + keyPointOfAvengers);
 
             Mat keyPointAvengers = new Mat();
 

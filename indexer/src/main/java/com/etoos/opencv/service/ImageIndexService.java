@@ -35,6 +35,12 @@ import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.index.query.functionscore.ScriptScoreQueryBuilder;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.opencv.core.Core;
+import org.opencv.core.KeyPoint;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfKeyPoint;
+import org.opencv.features2d.SIFT;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -73,37 +79,108 @@ public class ImageIndexService {
                 CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
             } else {
 
-                DeleteIndexRequest deleteIndexRequest = new DeleteIndexRequest(indexName);
-                AcknowledgedResponse deleteIndexResponse = client.indices().delete(deleteIndexRequest, RequestOptions.DEFAULT);
-
-                if (deleteIndexResponse.isAcknowledged()) {
-                    CreateIndexRequest request = ImageIndexApi.createIndex(indexName);
-                    CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
-                }
+//                DeleteIndexRequest deleteIndexRequest = new DeleteIndexRequest(indexName);
+//                AcknowledgedResponse deleteIndexResponse = client.indices().delete(deleteIndexRequest, RequestOptions.DEFAULT);
+//
+//                if (deleteIndexResponse.isAcknowledged()) {
+//                    CreateIndexRequest request = ImageIndexApi.createIndex(indexName);
+//                    CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
+//                }
             }
+
+
+
+
+            insertData();
+
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    int i=0;
+
+    public void insertData(){
+
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
+
+        String filePath="/Users/doo/project/opencv/images/";
+//            String filePath="./img/";
+
+        Mat imageAvengers = Imgcodecs.imread(filePath+"title.png");
+        // Start SIFT KeyPoint
+        MatOfKeyPoint keyPointOfAvengers = new MatOfKeyPoint();
+        SIFT.create().detect(imageAvengers, keyPointOfAvengers);
+
+//        keyPointOfAvengers.toList().stream().forEach(x-> {System.out.println( x); i++;} );
+//        System.out.println(" int i ::: "+ i);
+
+
+        Mat discripters = new Mat();
+        Mat mask = new Mat();
+        SIFT.create().detectAndCompute(imageAvengers,mask, keyPointOfAvengers, discripters);
+
+
+        String image_id = "1";
+
+
+        Vector<KeyPoint> keyPointVector = new Vector<>();
+//        List<KeyPoint> keyPoints = keyPointOfAvengers.toList();
+
+
+        BulkRequest bulkRequest = new BulkRequest();
+
+                    try {
+                        XContentBuilder builder = XContentFactory.jsonBuilder();
+                        builder.startObject();
+                        {
+                            builder.field("feature", discripters.get(new int[0]));
+                            builder.field("image_id", image_id);
+
+                        }
+                        builder.endObject();
+                        IndexRequest indexRequest = new IndexRequest(indexName)
+                                .type("_doc")
+                                .id(null)
+                                .source(builder);
+                        bulkRequest.add(indexRequest);
+
+
+                        BulkResponse bulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
     public void getIndexer() {
 
         try {
 
             SearchRequest searchRequest = new SearchRequest();
-
             searchRequest.indices("images-2020-11-03");
-
             SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
             Map<String, Object> map = new HashMap<>();
             map.put("query_vector", "[random.gauss(0, 0.432) for _ in range(128)]");
 
-//            ScoreFunctionBuilder scoreFunctionBuilder = ScoreFunctionBuilders.scriptFunction(
-//                    new Script( Script.DEFAULT_SCRIPT_TYPE, Script.DEFAULT_SCRIPT_LANG,
-//                    "dotProduct(params.query_vector, doc['feature']) + 1.0", map)
-//            );
 
             ScriptScoreQueryBuilder functionScoreQueryBuilder = new ScriptScoreQueryBuilder(QueryBuilders.matchAllQuery(), new Script(Script.DEFAULT_SCRIPT_TYPE, Script.DEFAULT_SCRIPT_LANG,
                     "dotProduct(params.query_vector1, doc['feature']) + 1.0", map));
@@ -124,6 +201,9 @@ public class ImageIndexService {
 
 
     }
+
+
+
 
 
 }
