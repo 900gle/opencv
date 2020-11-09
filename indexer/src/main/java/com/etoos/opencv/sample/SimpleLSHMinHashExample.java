@@ -53,7 +53,6 @@ public class SimpleLSHMinHashExample {
 
             print(vector);
 
-
             System.out.print(" : ");
             print(hash);
             System.out.print("\n");

@@ -4,6 +4,7 @@ import com.etoos.opencv.apis.ImageIndexApi;
 import com.etoos.opencv.config.Client;
 import com.etoos.opencv.domain.image.Images;
 import com.etoos.opencv.repository.ImagesRepository;
+import info.debatty.java.lsh.LSHMinHash;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest;
@@ -111,7 +112,10 @@ public class ImageIndexService {
         String filePath="/Users/doo/project/opencv/images/";
 //            String filePath="./img/";
 
-        Mat imageAvengers = Imgcodecs.imread(filePath+"title.png");
+//        String fileName = "avengers.jpg";
+        String fileName = "title.png";
+
+        Mat imageAvengers = Imgcodecs.imread(filePath+ fileName);
         // Start SIFT KeyPoint
         MatOfKeyPoint keyPointOfAvengers = new MatOfKeyPoint();
         SIFT.create().detect(imageAvengers, keyPointOfAvengers);
@@ -127,18 +131,53 @@ public class ImageIndexService {
 
         String image_id = "1";
 
+         int stages = 1;
+         int buckets = 100;
+        double sparsity = 3.75;
 
-        Vector<KeyPoint> keyPointVector = new Vector<>();
-//        List<KeyPoint> keyPoints = keyPointOfAvengers.toList();
+
+        boolean[][] vectors = new boolean[discripters.size(0)][discripters.size(0)];
+        LSHMinHash lsh = new LSHMinHash(stages, buckets, discripters.size(0));
+
+        int[][] hashes = new int[discripters.size(1)][];
+
+        for (int i = 0; i < discripters.size(1); i++) {
+            for (int j = 0; j < discripters.size(0); j++) {
+                vectors[i][j] = discripters.get(i,j)[0] > sparsity;
+            }
+
+            hashes[i] =    lsh.hash(vectors[i]);
+        }
+
+
+        List<Integer> denseVector = new ArrayList<>();
+
+
+
+
+
+
+
+        for (int i = 0; i < hashes.length; i++){
+            System.out.println(hashes[i][0]);
+
+            denseVector.add(hashes[i][0]);
+
+//            denseVector[i] = hashes[i][0];
+        }
+
+
+//        System.out.println("length : " + denseVector.length);
+
+//        Arrays.stream(denseVector).forEach(x-> System.out.println(x));
 
 
         BulkRequest bulkRequest = new BulkRequest();
-
                     try {
                         XContentBuilder builder = XContentFactory.jsonBuilder();
                         builder.startObject();
                         {
-                            builder.field("feature", discripters.get(new int[0]));
+                            builder.field("feature", denseVector);
                             builder.field("image_id", image_id);
 
                         }
@@ -152,6 +191,8 @@ public class ImageIndexService {
 
                         BulkResponse bulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);
 
+
+                        System.out.println(bulkResponse.buildFailureMessage());
 
                     } catch (IOException e) {
                         e.printStackTrace();
