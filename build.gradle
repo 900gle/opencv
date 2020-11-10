@@ -26,7 +26,6 @@ subprojects {
         mavenCentral()
     }
 
-
     //Spring Boot Overriding
     ext['hibernate.version'] = '5.2.11.Final' //추가
 
@@ -48,7 +47,6 @@ subprojects {
         }
     }
     def swaggerVersion = '2.5.0'
-    def mysqlVersion = '5.1.47'
     def mybatisVersion = '2.0.0'
     dependencies {
 
@@ -59,10 +57,7 @@ subprojects {
         annotationProcessor 'org.projectlombok:lombok'
         compile fileTree(dir: './libs', include: ['*.jar'])
 
-        //    compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: mybatisVersion
-        compile('org.springframework.boot:spring-boot-starter-jdbc')
-        // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-        compile group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
+
 
 
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"

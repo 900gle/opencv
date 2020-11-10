@@ -8,22 +8,22 @@ logging:
 spring:
   profiles: local
 
-  datasource:
-    url: jdbc:mysql://localhost:3306/doo?zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true&useSSL=false
-    username: ldh
-    password: doo
-    driver-class-name: com.mysql.jdbc.Driver
-  servlet:
-    multipart:
-      max-file-size: 50MB
-      max-request-size: 50MB
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/doo?zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true&useSSL=false
+#    username: ldh
+#    password: doo
+#    driver-class-name: com.mysql.jdbc.Driver
+#  servlet:
+#    multipart:
+#      max-file-size: 50MB
+#      max-request-size: 50MB
 
 #mybatis:
 #  type-aliases-package: com.etoos.opencv.mapper
 #  mapper-locations: classpath:mybatis/mapper/**/*.xml
 
 server:
-  port: 8080
+  port: 8888
 
 elasticsearch:
   host: localhost
