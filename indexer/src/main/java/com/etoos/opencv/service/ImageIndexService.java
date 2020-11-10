@@ -3,6 +3,7 @@ package com.etoos.opencv.service;
 import com.etoos.opencv.apis.ImageIndexApi;
 import com.etoos.opencv.config.Client;
 import com.etoos.opencv.domain.image.Images;
+import com.etoos.opencv.dto.ImageIndexDTO;
 import com.etoos.opencv.repository.ImagesRepository;
 import info.debatty.java.lsh.LSHMinHash;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +61,7 @@ public class ImageIndexService {
 
     String indexName = "images-" + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE).toString();
 
-    public void staticIndex() {
+    public void staticIndex(ImageIndexDTO imageIndexDTO) {
 
         try {
 
@@ -89,124 +90,62 @@ public class ImageIndexService {
 //                }
             }
 
-
-
-
-            insertData();
-
-
-
+            insertData(imageIndexDTO);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    int i=0;
+    int i = 0;
 
-    public void insertData(){
+    public void insertData(ImageIndexDTO imageIndexDTO) {
 
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-
-        String filePath="/Users/doo/project/opencv/images/";
-//            String filePath="./img/";
-
-//        String fileName = "avengers.jpg";
-        String fileName = "title.png";
-
-        Mat imageAvengers = Imgcodecs.imread(filePath+ fileName);
-        // Start SIFT KeyPoint
+        Mat imageAvengers = Imgcodecs.imread(imageIndexDTO.getFilePath());
         MatOfKeyPoint keyPointOfAvengers = new MatOfKeyPoint();
         SIFT.create().detect(imageAvengers, keyPointOfAvengers);
 
-//        keyPointOfAvengers.toList().stream().forEach(x-> {System.out.println( x); i++;} );
-//        System.out.println(" int i ::: "+ i);
-
-
         Mat discripters = new Mat();
         Mat mask = new Mat();
-        SIFT.create().detectAndCompute(imageAvengers,mask, keyPointOfAvengers, discripters);
+        SIFT.create().detectAndCompute(imageAvengers, mask, keyPointOfAvengers, discripters);
 
-
-        String image_id = "1";
-
-         int stages = 1;
-         int buckets = 100;
-        double sparsity = 3.75;
-
-
-        boolean[][] vectors = new boolean[discripters.size(0)][discripters.size(0)];
-        LSHMinHash lsh = new LSHMinHash(stages, buckets, discripters.size(0));
-
-        int[][] hashes = new int[discripters.size(1)][];
-
+        Vector<Double> doubleVector = new Vector<>();
+        double sum = 0;
         for (int i = 0; i < discripters.size(1); i++) {
             for (int j = 0; j < discripters.size(0); j++) {
-                vectors[i][j] = discripters.get(i,j)[0] > sparsity;
+                sum += discripters.get(j, i)[0];
             }
-
-            hashes[i] =    lsh.hash(vectors[i]);
+            doubleVector.add(sum);
+            sum = 0;
         }
-
-
-        List<Integer> denseVector = new ArrayList<>();
-
-
-
-
-
-
-
-        for (int i = 0; i < hashes.length; i++){
-            System.out.println(hashes[i][0]);
-
-            denseVector.add(hashes[i][0]);
-
-//            denseVector[i] = hashes[i][0];
-        }
-
-
-//        System.out.println("length : " + denseVector.length);
-
-//        Arrays.stream(denseVector).forEach(x-> System.out.println(x));
 
 
         BulkRequest bulkRequest = new BulkRequest();
-                    try {
-                        XContentBuilder builder = XContentFactory.jsonBuilder();
-                        builder.startObject();
-                        {
-                            builder.field("feature", denseVector);
-                            builder.field("image_id", image_id);
+        try {
+            XContentBuilder builder = XContentFactory.jsonBuilder();
+            builder.startObject();
+            {
+                builder.field("feature", doubleVector);
+                builder.field("image_id", imageIndexDTO.getImageId());
+                builder.field("image_name", imageIndexDTO.getImageName());
 
-                        }
-                        builder.endObject();
-                        IndexRequest indexRequest = new IndexRequest(indexName)
-                                .type("_doc")
-                                .id(null)
-                                .source(builder);
-                        bulkRequest.add(indexRequest);
+            }
+            builder.endObject();
+            IndexRequest indexRequest = new IndexRequest(indexName)
+                    .type("_doc")
+                    .id(null)
+                    .source(builder);
+            bulkRequest.add(indexRequest);
 
+            BulkResponse bulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);
 
-                        BulkResponse bulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);
+            System.out.println(bulkResponse.buildFailureMessage());
 
-
-                        System.out.println(bulkResponse.buildFailureMessage());
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-
-
-
-
-
-
-
-
-
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -224,7 +163,7 @@ public class ImageIndexService {
 
 
             ScriptScoreQueryBuilder functionScoreQueryBuilder = new ScriptScoreQueryBuilder(QueryBuilders.matchAllQuery(), new Script(Script.DEFAULT_SCRIPT_TYPE, Script.DEFAULT_SCRIPT_LANG,
-                    "dotProduct(params.query_vector1, doc['feature']) + 1.0", map));
+                    "dotProduct(params.query_vector, doc['feature']) + 1.0", map));
 
             searchSourceBuilder.query(functionScoreQueryBuilder);
             searchRequest.source(searchSourceBuilder);
@@ -240,11 +179,7 @@ public class ImageIndexService {
             e.getStackTrace();
         }
 
-
     }
-
-
-
 
 
 }

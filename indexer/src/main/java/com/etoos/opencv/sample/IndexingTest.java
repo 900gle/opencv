@@ -33,7 +33,6 @@ public class IndexingTest {
 //    윗값이 128차원 벡터 값입니다.
 
 
-
     public static void showLennaSIFT() {
         try {
 
@@ -41,7 +40,7 @@ public class IndexingTest {
 //            String filePath="./img/";
 
             //avengers.jpg
-           String imageName = "title.png";
+            String imageName = "title.png";
 //            String imageName = "avengers.jpg";
 
             Mat imageAvengers = Imgcodecs.imread(filePath + imageName);
@@ -49,7 +48,7 @@ public class IndexingTest {
             MatOfKeyPoint keyPointOfAvengers = new MatOfKeyPoint();
 //            SIFT.create().detect(imageAvengers, keyPointOfAvengers);
 
-            double sparsity = 3.75;
+            double sparsity = 30.75;
             Mat discripters = new Mat();
 //            System.out.println(discripters);
 
@@ -65,9 +64,7 @@ public class IndexingTest {
             System.out.println("size : " + discripters.size(1));
 //            System.out.println("discripters : " + discripters.get(0, 0));
 
-            LSHMinHash lsh = new LSHMinHash(stages, buckets, discripters.size(1));
-
-
+            LSHMinHash lsh = new LSHMinHash(stages, buckets, discripters.size(0));
 
 
             boolean[][] vectors = new boolean[discripters.size(1)][discripters.size(0)];
@@ -76,20 +73,17 @@ public class IndexingTest {
             for (int i = 0; i < discripters.size(1); i++) {
 
 
-
                 for (int j = 0; j < discripters.size(0); j++) {
 
-                    System.out.print(discripters.get(j,i)[0]);
+                    System.out.print(discripters.get(j, i)[0]);
 
 //                    System.out.println(j);
 
-                    vectors[i][j] = discripters.get(j,i)[0] > sparsity;
+                    vectors[i][j] = discripters.get(j, i)[0] > sparsity;
                 }
 
 
-
-
-//                hashes[i] =    lsh.hash(vectors[i]);
+                hashes[i] = lsh.hash(vectors[i]);
 
                 System.out.println("__");
 
@@ -98,10 +92,10 @@ public class IndexingTest {
 
             }
 
-//            Arrays.stream(hashes).forEach(x-> System.out.println(x[0]));
+            Arrays.stream(hashes).forEach(x-> System.out.println(x[0]));
 
 
-            System.out.println(vectors[0].length);
+            System.out.println(hashes.length);
 
 
 //            Arrays.stream(vectors).forEach(x-> System.out.println(x));
@@ -112,7 +106,6 @@ public class IndexingTest {
 
 
 //            LSHMinHash lsh = new LSHMinHash(stages, buckets, n);
-
 
 
             System.out.println("--------------");

@@ -1,7 +1,16 @@
+def mysqlVersion = '5.1.47'
+
 dependencies {
     compile project(':common')
     compile fileTree(dir: './libs', include: ['*.jar'])
 // https://mvnrepository.com/artifact/info.debatty/java-lsh
     compile group: 'info.debatty', name: 'java-lsh', version: '0.12'
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.3.4.RELEASE'
+
+    //    compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: mybatisVersion
+    compile('org.springframework.boot:spring-boot-starter-jdbc')
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    compile group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
 
 }

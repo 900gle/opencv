@@ -5,12 +5,15 @@ jar {
     enabled = true;
 }
 
-def elasticsearchVersion = '7.3.0'
+def elasticsearchVersion = '7.9.1'
 def swaggerVersion = '2.5.0'
 
 dependencies {
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.3.4.RELEASE'
+    compile fileTree(dir: './libs', include: ['*.jar'])
+
+    // https://mvnrepository.com/artifact/info.debatty/java-lsh
+    compile group: 'info.debatty', name: 'java-lsh', version: '0.12'
+
     compile('org.springframework.boot:spring-boot-starter-aop')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

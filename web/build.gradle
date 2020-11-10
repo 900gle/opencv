@@ -1,0 +1,6 @@
+dependencies {
+    compile project(':common')
+    // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf
+    compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.11.RELEASE'
+
+}
