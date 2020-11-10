@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import opencv.dto.ImageSearchDTO;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,29 +23,20 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class ImageSearchRestController {
 
-
     private final ImageSearchService imageSearchService;
 
     @CrossOrigin("*")
     @ApiOperation(value = "이미지 검색", notes = "이미지 검색")
-    @GetMapping()
+    @PostMapping()
     public CommonResult postImagePoint(
-
-            @ApiParam(value = "검색어") @RequestParam(value = "keyword", defaultValue = "", required = true) @Validated final String keyword,
-            @ApiParam(value = "페이지") @RequestParam(value = "page", defaultValue = "", required = true) @Validated final int page,
-            @ApiParam(value = "사이") @RequestParam(value = "size", defaultValue = "100", required = true) @Validated final int size
+            @ApiParam(value = "파일") @RequestParam(value = "file", required = true) @Validated final MultipartFile file,
+            @ApiParam(value = "이미지 아이디") @RequestParam(value = "imageId", defaultValue = "1") @Validated final int imageId
     ) {
-
-            return imageSearchService.getImages(
-                    SearchDTO.builder()
-                            .keyword(keyword)
-                            .page(page)
-                            .size(size)
-                            .build()
-            );
-
-
-
-
+        return imageSearchService.getImages(
+                ImageSearchDTO.builder()
+                        .imageId(imageId)
+                        .file(file)
+                        .build()
+        );
     }
 }

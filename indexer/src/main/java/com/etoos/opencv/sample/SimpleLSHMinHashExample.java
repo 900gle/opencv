@@ -15,7 +15,7 @@ public class SimpleLSHMinHashExample {
         double sparsity = 0.75;
 
         // Number of sets
-        int count = 10000;
+        int count = 100;
 
         // Size of vectors
         int n = 100;
@@ -34,7 +34,9 @@ public class SimpleLSHMinHashExample {
 
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < n; j++) {
-                vectors[i][j] = rand.nextDouble() > sparsity;
+//                vectors[i][j] = rand.nextDouble() > sparsity;
+                vectors[i][j] = true;
+
             }
         }
 

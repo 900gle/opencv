@@ -38,6 +38,11 @@ public class ImageIndexApi {
                 }
                 builder.endObject();
 
+                builder.startObject("image_name");
+                {
+                    builder.field("type", "text");
+                }
+                builder.endObject();
 
             }
             builder.endObject();
