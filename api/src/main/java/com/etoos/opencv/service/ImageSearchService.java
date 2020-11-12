@@ -30,6 +30,7 @@ public class ImageSearchService {
 
     private final ResponseService responseService;
     private final RestHighLevelClient client;
+    private final String ALIAS = "images";
 
 
     public CommonResult getImages(ImageSearchDTO imageSearchDTO) {
@@ -38,7 +39,7 @@ public class ImageSearchService {
             Vector<Double> vectors = ImageToVector.getVector(imageSearchDTO);
 
             SearchRequest searchRequest = new SearchRequest();
-            searchRequest.indices("images-2020-11-10");
+            searchRequest.indices(ALIAS);
             SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
             String[] includeFields = new String[]{"image_id", "image_name"};
