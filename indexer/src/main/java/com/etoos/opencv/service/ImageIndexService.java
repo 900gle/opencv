@@ -59,16 +59,17 @@ public class ImageIndexService {
 
     private final RestHighLevelClient client;
 
-    String indexName = "images-" + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE).toString();
+    private final String ALIAS = "images";
+    String INDEX_NAME = "images-" + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE).toString();
 
     public void staticIndex(ImageIndexDTO imageIndexDTO) {
 
         try {
 
-            GetIndexRequest requestGetIndex = new GetIndexRequest(indexName);
+            GetIndexRequest requestGetIndex = new GetIndexRequest(INDEX_NAME);
             boolean existsIndex = client.indices().exists(requestGetIndex, RequestOptions.DEFAULT);
 
-            GetAliasesRequest aliasesRequest = new GetAliasesRequest("images");
+            GetAliasesRequest aliasesRequest = new GetAliasesRequest(ALIAS);
             GetAliasesResponse getAliasesResponse = client.indices().getAlias(aliasesRequest, RequestOptions.DEFAULT);
 
             String oldIndexName = "";
@@ -77,8 +78,19 @@ public class ImageIndexService {
             }
 
             if (existsIndex == false) {
-                CreateIndexRequest request = ImageIndexApi.createIndex(indexName);
+                CreateIndexRequest request = ImageIndexApi.createIndex(INDEX_NAME);
                 CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
+
+                IndicesAliasesRequest aliasRequest = new IndicesAliasesRequest();
+                IndicesAliasesRequest.AliasActions aliasAction =
+                        new IndicesAliasesRequest.AliasActions(IndicesAliasesRequest.AliasActions.Type.ADD)
+                                .index(INDEX_NAME)
+                                .alias(ALIAS);
+                aliasRequest.addAliasAction(aliasAction);
+                AcknowledgedResponse indicesAliasesResponse =
+                        client.indices().updateAliases(aliasRequest, RequestOptions.DEFAULT);
+
+
             } else {
 
 //                DeleteIndexRequest deleteIndexRequest = new DeleteIndexRequest(indexName);
@@ -89,6 +101,9 @@ public class ImageIndexService {
 //                    CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
 //                }
             }
+
+
+
 
             insertData(imageIndexDTO);
 
@@ -133,14 +148,13 @@ public class ImageIndexService {
 
             }
             builder.endObject();
-            IndexRequest indexRequest = new IndexRequest(indexName)
+            IndexRequest indexRequest = new IndexRequest(ALIAS)
                     .type("_doc")
                     .id(null)
                     .source(builder);
             bulkRequest.add(indexRequest);
 
             BulkResponse bulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);
-
             System.out.println(bulkResponse.buildFailureMessage());
 
         } catch (IOException e) {

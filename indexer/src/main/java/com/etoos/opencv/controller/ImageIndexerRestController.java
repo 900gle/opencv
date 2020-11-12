@@ -34,7 +34,7 @@ public class ImageIndexerRestController {
     ) {
         try {
 
-            String baseDir = "/Users/doo/project/opencv/temp/";
+            String baseDir = "/Users/doo/project/opencv/web/src/main/resources/static/images";
             String filePath = baseDir + "//" + file.getOriginalFilename();
             file.transferTo(new File(filePath));
 
@@ -56,7 +56,6 @@ public class ImageIndexerRestController {
     public CommonResult getIndexer() {
 
         imageIndexService.getIndexer();
-
         return new CommonResult();
     }
 
