@@ -1,12 +1,11 @@
 package com.etoos.opencv.controller;
 
 
-import com.etoos.opencv.service.ImageIndexService;
 import com.etoos.opencv.service.MaskingIndexService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import opencv.model.response.CommonResult;
+import com.etoos.opencv.model.response.CommonResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
