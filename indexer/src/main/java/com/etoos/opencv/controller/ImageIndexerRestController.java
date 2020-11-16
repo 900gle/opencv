@@ -2,12 +2,12 @@ package com.etoos.opencv.controller;
 
 
 import com.etoos.opencv.dto.ImageIndexDTO;
+import com.etoos.opencv.model.response.CommonResult;
 import com.etoos.opencv.service.ImageIndexService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import opencv.model.response.CommonResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,15 +38,12 @@ public class ImageIndexerRestController {
             String filePath = baseDir + "//" + file.getOriginalFilename();
             file.transferTo(new File(filePath));
 
-            imageIndexService.staticIndex(ImageIndexDTO.builder().imageId(imageId).imageName(file.getOriginalFilename()).filePath(filePath).build());
+            return imageIndexService.staticIndex(ImageIndexDTO.builder().imageId(imageId).imageName(file.getOriginalFilename()).filePath(filePath).build());
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return new CommonResult();
-
-
     }
 
 

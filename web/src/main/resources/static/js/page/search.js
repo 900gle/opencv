@@ -1,9 +1,6 @@
 const search = {
     init: function () {
-
         var _this = this;
-
-
     }, // init end
     form: {
         send: function () {

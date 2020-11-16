@@ -23,15 +23,6 @@ public class VectorTest {
     static int n = 300;
 
 
-//    dense_vector로 색인해야 할것은 128차원의 Descriptor 정보입니다.
-//    keypoint는 위치 방향 크기 정보이고 이것을 벡터화 한것이 Descriptor입니다.
-//    kp1, desc1 = sift.detectAndCompute(imgray, None)
-//
-//    print(desc1)
-//    doc = {"name": i, "feature": desc1[0]}
-//    윗값이 128차원 벡터 값입니다.
-
-
     public static void showLennaSIFT() {
         try {
 
