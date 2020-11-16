@@ -1,21 +1,15 @@
 package com.etoos.opencv.controller;
 
-import com.etoos.opencv.dto.PointDTO;
-import com.etoos.opencv.dto.SearchDTO;
 import com.etoos.opencv.model.response.CommonResult;
 import com.etoos.opencv.service.ImageSearchService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import opencv.dto.ImageSearchDTO;
-import org.springframework.http.MediaType;
+import com.etoos.opencv.dto.ImageSearchDTO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
 
 @RestController
 @Api(tags = "2. Image Search Apis")

@@ -23,16 +23,6 @@ public class IndexingTest {
     static int buckets = 100;
     static int n = 300;
 
-
-//    dense_vector로 색인해야 할것은 128차원의 Descriptor 정보입니다.
-//    keypoint는 위치 방향 크기 정보이고 이것을 벡터화 한것이 Descriptor입니다.
-//    kp1, desc1 = sift.detectAndCompute(imgray, None)
-//
-//    print(desc1)
-//    doc = {"name": i, "feature": desc1[0]}
-//    윗값이 128차원 벡터 값입니다.
-
-
     public static void showLennaSIFT() {
         try {
 
@@ -98,14 +88,11 @@ public class IndexingTest {
             System.out.println(hashes.length);
 
 
-//            Arrays.stream(vectors).forEach(x-> System.out.println(x));
-//
+
 
             int stages = 2;
             int buckets = 10;
 
-
-//            LSHMinHash lsh = new LSHMinHash(stages, buckets, n);
 
 
             System.out.println("--------------");
@@ -117,66 +104,6 @@ public class IndexingTest {
                 System.out.println("Mat!!");
             }
 
-//            matVector.add(discripters);
-
-
-//            System.out.println(discripters);
-
-
-//            System.out.println(discripters.size());
-
-//            Mat teMat = new Mat();
-//
-//            discripters.convertTo(teMat, 1 );
-//
-//
-//            System.out.println("te ::   "  +teMat);
-
-
-//
-//
-//            SIFT.create().detect(imageAvengers, keyPointOfAvengers);
-//
-//
-//            System.out.println(keyPointOfAvengers);
-//
-//            LSHMinHash lsh = new LSHMinHash(stages, buckets, n);
-//
-//
-////            lsh.hash()
-//
-//            keyPointOfAvengers.toList().stream().forEach(x-> {System.out.println( x); i++;} );
-//
-////
-////            Vector<KeyPoint> keyPointVector = new Vector<>();
-////            List<KeyPoint> keyPoints = keyPointOfAvengers.toList();
-////
-////            for (KeyPoint keyPoint : keyPoints) {
-////
-////
-////                keyPointVector.add(keyPoint);
-////                System.out.println(keyPoint);
-////                i++;
-////            }
-//
-//
-//
-////            keyPointVector.stream().forEach(x-> System.out.println(x));
-//
-//
-//
-//            Mat keyPointAvengers = new Mat();
-//
-//            Features2d.drawKeypoints(imageAvengers, keyPointOfAvengers
-//                    , keyPointAvengers, new Scalar(0, 0, 255)
-//                    , Features2d.DrawMatchesFlags_DRAW_RICH_KEYPOINTS);
-//            // End SIFT KeyPoint
-//
-//            // Show
-//            HighGui.imshow("SIFT KeyPoint", keyPointAvengers);
-//
-//            HighGui.waitKey();
-//            System.exit(0);
 
         } catch (Exception e) {
             e.printStackTrace();

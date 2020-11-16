@@ -1,18 +1,14 @@
 package com.etoos.opencv.service;
 
-import com.etoos.opencv.dto.SearchDTO;
 import com.etoos.opencv.model.response.CommonResult;
-import com.etoos.opencv.proc.MaskingImageProcess;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import opencv.component.ImageToVector;
-import opencv.dto.ImageSearchDTO;
+import com.etoos.opencv.component.ImageToVector;
+import com.etoos.opencv.dto.ImageSearchDTO;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.lucene.search.function.ScriptScoreQuery;
-import org.elasticsearch.index.query.MatchAllQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.functionscore.ScriptScoreQueryBuilder;
 import org.elasticsearch.script.Script;
@@ -36,7 +32,7 @@ public class ImageSearchService {
     public CommonResult getImages(ImageSearchDTO imageSearchDTO) {
 
         try {
-            Vector<Double> vectors = ImageToVector.getVector(imageSearchDTO);
+            Vector<Integer> vectors = ImageToVector.getVector(imageSearchDTO);
 
             SearchRequest searchRequest = new SearchRequest();
             searchRequest.indices(ALIAS);
@@ -65,7 +61,7 @@ public class ImageSearchService {
             SearchHit[] results = searchResponse.getHits().getHits();
             Arrays.stream(results).forEach(hit -> {
                 Map<String, Object> result = hit.getSourceAsMap();
-                result.put("score", hit.getScore());
+                result.put("score", hit.getScore() - 1.0);
                 returnValue.add(result);
             });
 
