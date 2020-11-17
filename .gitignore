@@ -44,3 +44,4 @@ batch/build/
 web/build/
 api/build/
 indexer/build/
+*.log
