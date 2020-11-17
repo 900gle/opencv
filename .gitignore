@@ -39,6 +39,7 @@ out/
 */out/
 */gradle/
 */build/templates/
+*/temp/
 common/build/
 batch/build/
 web/build/
