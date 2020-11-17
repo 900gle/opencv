@@ -14,10 +14,7 @@ public class ImageSIFTOpenCV {
 
     public static void main(String[] args) {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-
         showLennaSIFT();
-
-
     }
     static int  i =1;
 
@@ -29,13 +26,11 @@ public class ImageSIFTOpenCV {
     public static void showLennaSIFT() {
         try {
 
-            String filePath="/Users/doo/project/opencv/images/";
-//            String filePath="./img/";
+            String filePath="/Users/doo/project/opencv/web/src/main/resources/static/images";
 
-            Mat imageAvengers = Imgcodecs.imread(filePath+"title.png");
+            Mat imageAvengers = Imgcodecs.imread(filePath+"search_test4.png");
             MatOfKeyPoint keyPointOfAvengers = new MatOfKeyPoint();
             SIFT.create().detect(imageAvengers, keyPointOfAvengers);
-
 
             System.out.println(keyPointOfAvengers);
 
