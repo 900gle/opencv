@@ -28,11 +28,10 @@ public class ImageSearchService {
     private final RestHighLevelClient client;
     private final String ALIAS = "images";
 
-
     public CommonResult getImages(ImageSearchDTO imageSearchDTO) {
 
         try {
-            Vector<Integer> vectors = ImageToVector.getVector(imageSearchDTO);
+            Vector<Double> vectors = ImageToVector.getVector(imageSearchDTO);
 
             SearchRequest searchRequest = new SearchRequest();
             searchRequest.indices(ALIAS);

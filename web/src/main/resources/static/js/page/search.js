@@ -17,7 +17,7 @@ const search = {
                     let html = "";
                     response.data.list.map((value, index) => {
                         html += "<tr>" +
-                            "<td><img src='/images/" + value.image_name + "' style='width: 100px; height: 100px;' /></td>" +
+                            "<td><a href='/images/" + value.image_name + "' target='_blank'><img src='/images/" + value.image_name + "' style='width: 100px; height: 100px;' onclick=''/></a></td>" +
                             "<td>" + value.score + "</td>" +
                             "<td>" + value.image_name + "</td>" +
                             "</tr>";

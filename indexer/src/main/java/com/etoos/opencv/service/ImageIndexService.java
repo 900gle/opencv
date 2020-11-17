@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest;
 import org.elasticsearch.action.admin.indices.alias.get.GetAliasesRequest;
+import org.elasticsearch.action.admin.indices.forcemerge.ForceMergeRequest;
+import org.elasticsearch.action.admin.indices.forcemerge.ForceMergeResponse;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -90,12 +92,15 @@ public class ImageIndexService {
 //                    CreateIndexRequest request = ImageIndexApi.createIndex(indexName);
 //                    CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
 //                }
+
             }
 
 
 
-
           return responseService.getSingleResult(insertData(imageIndexDTO));
+
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -117,14 +122,14 @@ public class ImageIndexService {
         Mat discripters = new Mat();
         Mat mask = new Mat();
         SIFT.create().detectAndCompute(imageAvengers, mask, keyPointOfAvengers, discripters);
-        Vector<Integer> doubleVector = ImageToVector.getIntVector(discripters);
-
+//        Vector<Integer> denseVector = ImageToVector.getIntVector(discripters);
+        Vector<Double> denseVector = ImageToVector.getDoubleVector(discripters);
         BulkRequest bulkRequest = new BulkRequest();
         try {
             XContentBuilder builder = XContentFactory.jsonBuilder();
             builder.startObject();
             {
-                builder.field("feature", doubleVector);
+                builder.field("feature", denseVector);
                 builder.field("image_id", imageIndexDTO.getImageId());
                 builder.field("image_name", imageIndexDTO.getImageName());
 
@@ -142,9 +147,17 @@ public class ImageIndexService {
                 return false;
             }
 
+            ForceMergeRequest forceMergeRequest = new ForceMergeRequest(INDEX_NAME);
+            forceMergeRequest.flush(true);
+            ForceMergeResponse forceMergeResponse = client.indices().forcemerge(forceMergeRequest, RequestOptions.DEFAULT);
+            System.out.println(forceMergeResponse.getStatus());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+
         return true;
     }
 
@@ -158,7 +171,6 @@ public class ImageIndexService {
             SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
             Map<String, Object> map = new HashMap<>();
             map.put("query_vector", "[random.gauss(0, 0.432) for _ in range(128)]");
-
 
             ScriptScoreQueryBuilder functionScoreQueryBuilder = new ScriptScoreQueryBuilder(QueryBuilders.matchAllQuery(), new Script(Script.DEFAULT_SCRIPT_TYPE, Script.DEFAULT_SCRIPT_LANG,
                     "dotProduct(params.query_vector, doc['feature']) + 1.0", map));
