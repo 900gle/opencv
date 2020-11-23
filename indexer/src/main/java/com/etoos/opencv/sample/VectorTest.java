@@ -27,16 +27,10 @@ public class VectorTest {
         try {
 
             String filePath = "/Users/doo/project/opencv/images/";
-//            String filePath="./img/";
-
-            //avengers.jpg
             String imageName = "title.png";
-//            String imageName = "avengers.jpg";
 
             Mat imageAvengers = Imgcodecs.imread(filePath + imageName);
-            // Start SIFT KeyPoint
             MatOfKeyPoint keyPointOfAvengers = new MatOfKeyPoint();
-//            SIFT.create().detect(imageAvengers, keyPointOfAvengers);
 
             double sparsity = 30.75;
             Mat discripters = new Mat();

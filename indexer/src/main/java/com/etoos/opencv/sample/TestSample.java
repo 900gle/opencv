@@ -11,15 +11,14 @@ import java.util.Vector;
 public class TestSample {
 
     public static final double sparsity = 10;
+    static final String FILE_PATH = "/Users/doo/project/opencv/web/src/main/resources/static/images/";
+    static final String FILE_NAME = "search_test4.png";
 
     public static void main(String[] args) {
 
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-        String filePath = "/Users/doo/project/opencv/images/";
-        String imageName = "avengers.jpg";
-
-        Mat image = Imgcodecs.imread(filePath + imageName);
+        Mat image = Imgcodecs.imread(FILE_PATH + FILE_NAME);
 
         MatOfKeyPoint keyPointOfAvengers = new MatOfKeyPoint();
         SIFT.create().detect(image, keyPointOfAvengers);

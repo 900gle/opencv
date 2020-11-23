@@ -16,11 +16,6 @@ public class MinHashExample {
         boolean[] vector1 = {true, false, false, true, false};
         int[] sig1 = minhash.signature(vector1);
 
-
-
-
-
-
         // Or as a set of integers:
         // set2 = [1 0 1 1 0]
         TreeSet<Integer> set2 = new TreeSet<Integer>();
@@ -28,6 +23,8 @@ public class MinHashExample {
         set2.add(2);
         set2.add(3);
         int[] sig2 = minhash.signature(set2);
+
+
 
 
         System.out.println("Signature similarity: " + minhash.similarity(sig1, sig2));
