@@ -34,8 +34,8 @@ public class SimpleLSHMinHashExample {
 
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < n; j++) {
-//                vectors[i][j] = rand.nextDouble() > sparsity;
-                vectors[i][j] = true;
+                vectors[i][j] = rand.nextDouble() > sparsity;
+//                vectors[i][j] = true;
 
             }
         }

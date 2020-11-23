@@ -66,6 +66,7 @@ public class LSHMinHashExample {
                     // We compute the similarity between each pair of sets
                     double similarity = MinHash.jaccardIndex(vector1, vector2);
 
+
                     // We count the number of pairs with similarity 0.1, 0.2,
                     // 0.3, etc.
                     results[(int) (10 * similarity)][0]++;
@@ -90,7 +91,7 @@ public class LSHMinHashExample {
                 if (results[i][0] != 0) {
                     probability = (double) results[i][1] / results[i][0];
                 }
-                System.out.println("" + similarity + "\t" + probability + "\t" + stages);
+                System.out.println("si : " + similarity + "\t" + probability + "\t" + stages);
             }
 
             // Separate the series for Gnuplot...

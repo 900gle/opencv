@@ -12,23 +12,25 @@ import java.util.Vector;
 
 public class ImageSIFTOpenCV {
 
+
+
+    static int i = 1;
+    static int stages = 2;
+    static int buckets = 10;
+    static int n = 100;
+    static final String FILE_PATH = "/Users/doo/project/opencv/web/src/main/resources/static/images/";
+    static final String FILE_NAME = "search_test4.png";
+
     public static void main(String[] args) {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         showLennaSIFT();
     }
-    static int  i =1;
-
-    static int stages = 2;
-    static int buckets = 10;
-    static int n = 100;
-
 
     public static void showLennaSIFT() {
         try {
 
-            String filePath="/Users/doo/project/opencv/web/src/main/resources/static/images";
 
-            Mat imageAvengers = Imgcodecs.imread(filePath+"search_test4.png");
+            Mat imageAvengers = Imgcodecs.imread(FILE_PATH + FILE_NAME);
             MatOfKeyPoint keyPointOfAvengers = new MatOfKeyPoint();
             SIFT.create().detect(imageAvengers, keyPointOfAvengers);
 
@@ -43,18 +45,15 @@ public class ImageSIFTOpenCV {
             List<KeyPoint> keyPoints = keyPointOfAvengers.toList();
 
             for (KeyPoint keyPoint : keyPoints) {
-
-
                 keyPointVector.add(keyPoint);
                 System.out.println(keyPoint);
 //                i++;
             }
 
 
-
 //            keyPointVector.stream().forEach(x-> System.out.println(x));
 
-            System.out.println(" int i ::: "+ i);
+            System.out.println(" int i ::: " + i);
 
 //            System.out.println("keyPointOfAvengers : " + keyPointOfAvengers);
 
