@@ -16,12 +16,7 @@ public class ImageService {
 
     ImagesRepository imagesRepository;
 
-
     public Page<Images> findAll (Pageable pageable) {
-
-
-
         return imagesRepository.findAll(pageable);
     }
-
 }
