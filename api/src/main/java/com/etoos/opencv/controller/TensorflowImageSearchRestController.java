@@ -1,23 +1,24 @@
 package com.etoos.opencv.controller;
 
+import com.etoos.opencv.dto.ImageSearchDTO;
 import com.etoos.opencv.model.response.CommonResult;
 import com.etoos.opencv.service.ImageSearchService;
+import com.etoos.opencv.service.TensorflowImageSearchService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import com.etoos.opencv.dto.ImageSearchDTO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@Api(tags = "2. Image Search Apis")
-@RequestMapping("api/images")
+@Api(tags = "3. Tensorflow Image Search Apis")
+@RequestMapping("api/tensor")
 @RequiredArgsConstructor
-public class ImageSearchRestController {
+public class TensorflowImageSearchRestController {
 
-    private final ImageSearchService imageSearchService;
+    private final TensorflowImageSearchService tensorflowImageSearchService;
 
     @CrossOrigin("*")
     @ApiOperation(value = "이미지 검색", notes = "이미지 검색")
@@ -26,14 +27,11 @@ public class ImageSearchRestController {
             @ApiParam(value = "파일") @RequestParam(value = "file", required = true) @Validated final MultipartFile file,
             @ApiParam(value = "이미지 아이디") @RequestParam(value = "imageId", defaultValue = "1") @Validated final int imageId
     ) {
-        return imageSearchService.getImages(
+        return tensorflowImageSearchService.getImages(
                 ImageSearchDTO.builder()
                         .imageId(imageId)
                         .file(file)
                         .build()
         );
     }
-
 }
-
-

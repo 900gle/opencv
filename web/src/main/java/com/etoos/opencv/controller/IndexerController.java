@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("indexer")
 public class IndexerController {
 
-    @GetMapping("")
-    public String getImages() {
+    @GetMapping("opencv")
+    public String getOpencv() {
         return "image_indexer";
     }
 
-    @DeleteMapping("")
-    public String deleteImages() {
-        return "image_delete";
+    @GetMapping("tensor")
+    public String getTensorflow() {
+        return "tensor_indexer";
     }
 }

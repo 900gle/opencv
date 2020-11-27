@@ -8,9 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("search")
 public class SearchController {
 
-    @GetMapping("")
-    public String getImages() {
+    @GetMapping("opencv")
+    public String getOpencv() {
         return "image_search";
     }
 
+    @GetMapping("tensor")
+    public String getTensorflow() {
+        return "tensor_search";
+    }
 }

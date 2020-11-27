@@ -26,8 +26,8 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Image Search <small>[ OpenCV ]</small></h1>
-                <p class="mb-4">이미지검색 - OpenCV 활용검색</p>
+                <h1 class="h3 mb-2 text-gray-800">Image Search <small>[ TensorFlow ]</small></h1>
+                <p class="mb-4">이미지검색 - 텐서플로우 활용검색</p>
 
 
                 <!-- DataTales Example -->
@@ -51,7 +51,7 @@
                                         </form>
                                     </div>
                                     <div class="form-group">
-                                        <a href="javascript:void(0), search.form.send()"
+                                        <a href="javascript:void(0), tensor.form.send()"
                                            class="btn btn-primary btn-user btn-block">
                                             검 색
                                         </a>
@@ -137,11 +137,11 @@
 
 <!-- Page level custom scripts -->
 <script src="/js/demo/datatables-demo.js"></script>
-<script src="/js/page/search.js"></script>
+<script src="/js/page/tensor_search.js"></script>
 <script type="text/javascript">
     var sel_file;
     $(document).ready(function () {
-        search.init();
+        tensor.init();
         $("#file").on("change", handleFileSelect);
     });
 

@@ -30,6 +30,9 @@ public class VectorTest {
             String imageName = "title.png";
 
             Mat imageAvengers = Imgcodecs.imread(filePath + imageName);
+
+            System.out.println(imageAvengers);
+
             MatOfKeyPoint keyPointOfAvengers = new MatOfKeyPoint();
 
             double sparsity = 30.75;
