@@ -16,11 +16,6 @@ import java.net.URL;
 public class SendRestUtil {
 
     public static String sendRest(String url, String json) throws IllegalStateException {
-
-
-        System.out.println(json);
-
-
         String inputLine = null;
         StringBuffer outResult = new StringBuffer();
 
@@ -49,12 +44,6 @@ public class SendRestUtil {
             log.error(e.getMessage());
             e.printStackTrace();
         }
-
-
-
         return outResult.toString();
-
     }
-
-
 }

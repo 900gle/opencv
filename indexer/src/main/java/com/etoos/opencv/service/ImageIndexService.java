@@ -147,7 +147,7 @@ public class ImageIndexService {
                 return false;
             }
 
-            ForceMergeRequest forceMergeRequest = new ForceMergeRequest(INDEX_NAME);
+            ForceMergeRequest forceMergeRequest = new ForceMergeRequest(ALIAS);
             forceMergeRequest.flush(true);
             ForceMergeResponse forceMergeResponse = client.indices().forcemerge(forceMergeRequest, RequestOptions.DEFAULT);
             System.out.println(forceMergeResponse.getStatus());

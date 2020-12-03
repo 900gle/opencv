@@ -20,7 +20,7 @@ public class ImageToVectorTensorflow {
         String filePath = BASE_DIR + "/" + imageSearchDTO.getFile().getOriginalFilename();
         imageSearchDTO.getFile().transferTo(new File(filePath));
 
-        String result = SendRestUtil.sendRest("http://127.0.0.1:5000/api/" + imageSearchDTO.getFile().getOriginalFilename() , "");
+        String result = SendRestUtil.sendRest("http://127.0.0.1:5000/api/" + imageSearchDTO.getFile().getOriginalFilename(), "");
         try {
 
             JSONParser parser = new JSONParser();
@@ -42,15 +42,11 @@ public class ImageToVectorTensorflow {
         }
 
         return null;
-
     }
 
+    public static Vector<Double> getVector(ImageIndexDTO imageIndexDTO) throws IOException {
 
-
-
-        public static Vector<Double> getVector(ImageIndexDTO imageIndexDTO) throws IOException {
-
-        String result = SendRestUtil.sendRest("http://127.0.0.1:5000/vectors/" + imageIndexDTO.getImageName() , "");
+        String result = SendRestUtil.sendRest("http://127.0.0.1:5000/vectors/" + imageIndexDTO.getImageName(), "");
         try {
 
             JSONParser parser = new JSONParser();
