@@ -32,6 +32,7 @@ public class TensorflowImageSearchService {
     public CommonResult getImages(ImageSearchDTO imageSearchDTO) {
 
         try {
+
             Vector<Double> vectors = ImageToVectorTensorflow.getVector(imageSearchDTO);
 
             SearchRequest searchRequest = new SearchRequest();

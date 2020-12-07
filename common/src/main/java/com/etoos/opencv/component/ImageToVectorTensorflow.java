@@ -16,11 +16,14 @@ public class ImageToVectorTensorflow {
     static final String BASE_DIR = "/Users/doo/project/opencv/common/temp";
 
     public static Vector<Double> getVector(ImageSearchDTO imageSearchDTO) throws IOException {
-
+        String result = "";
         String filePath = BASE_DIR + "/" + imageSearchDTO.getFile().getOriginalFilename();
         imageSearchDTO.getFile().transferTo(new File(filePath));
 
-        String result = SendRestUtil.sendRest("http://127.0.0.1:5000/api/" + imageSearchDTO.getFile().getOriginalFilename(), "");
+        if(SearchImagePreprocessing.searchImage(imageSearchDTO.getFile().getOriginalFilename(), BASE_DIR)){
+            result = SendRestUtil.sendRest("http://127.0.0.1:5000/api/" + imageSearchDTO.getFile().getOriginalFilename(), "");
+        }
+
         try {
 
             JSONParser parser = new JSONParser();

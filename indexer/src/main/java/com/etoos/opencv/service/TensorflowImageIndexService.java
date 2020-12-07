@@ -117,27 +117,6 @@ public class TensorflowImageIndexService {
 
     public boolean insertData(ImageIndexDTO imageIndexDTO) {
 
-//        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-//
-//
-//
-//
-//        Mat imageAvengers = Imgcodecs.imread(imageIndexDTO.getFilePath());
-//
-//
-//
-//        MatOfKeyPoint keyPointOfAvengers = new MatOfKeyPoint();
-//        SIFT.create().detect(imageAvengers, keyPointOfAvengers);
-//
-//        Mat discripters = new Mat();
-//        Mat mask = new Mat();
-//        SIFT.create().detectAndCompute(imageAvengers, mask, keyPointOfAvengers, discripters);
-//        Vector<Integer> denseVector = ImageToVector.getIntVector(discripters);
-//        JSONObject denseVector = ImageToVectorTensorflow.getVector();
-
-
-
-
         BulkRequest bulkRequest = new BulkRequest();
         try {
             XContentBuilder builder = XContentFactory.jsonBuilder();
@@ -146,7 +125,6 @@ public class TensorflowImageIndexService {
                 builder.field("feature", ImageToVectorTensorflow.getVector(imageIndexDTO));
                 builder.field("image_id", imageIndexDTO.getImageId());
                 builder.field("image_name", imageIndexDTO.getImageName());
-
             }
             builder.endObject();
             IndexRequest indexRequest = new IndexRequest(ALIAS)
