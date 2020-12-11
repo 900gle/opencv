@@ -9,5 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageSearchDTO {
     private int imageId;
     private String filePath;
+    private String tensorApi;
     private MultipartFile file;
+
+
+
 }

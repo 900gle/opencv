@@ -1,12 +1,10 @@
 package com.etoos.opencv.service;
 
-import com.etoos.opencv.apis.ImageIndexApi;
 import com.etoos.opencv.apis.TensorImageIndexApi;
-import com.etoos.opencv.component.ImageToVector;
 import com.etoos.opencv.component.ImageToVectorTensorflow;
 import com.etoos.opencv.dto.ImageIndexDTO;
+import com.etoos.opencv.dto.VectorDTO;
 import com.etoos.opencv.model.response.CommonResult;
-import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest;
@@ -31,12 +29,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.functionscore.ScriptScoreQueryBuilder;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.json.simple.JSONObject;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfKeyPoint;
-import org.opencv.features2d.SIFT;
-import org.opencv.imgcodecs.Imgcodecs;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -45,12 +38,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Vector;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class TensorflowImageIndexService {
+
+    @Value("${file.dir.upload}")
+    private String uploadDir;
+
+    @Value("${tensor.api.url}")
+    private String tensorApi;
 
     private final ResponseService responseService;
 
@@ -74,7 +72,7 @@ public class TensorflowImageIndexService {
                 oldIndexName = Optional.ofNullable(getAliasesResponse.getAliases().keySet().iterator().next()).orElse("");
             }
 
-            if ( getAliasesResponse.getAliases().size() < 1 && existsIndex == false) {
+            if (getAliasesResponse.getAliases().size() < 1 && existsIndex == false) {
                 CreateIndexRequest request = TensorImageIndexApi.createIndex(INDEX_NAME);
                 CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
 
@@ -96,24 +94,14 @@ public class TensorflowImageIndexService {
 //                    CreateIndexRequest request = ImageIndexApi.createIndex(indexName);
 //                    CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
 //                }
-
             }
-
-
-
-          return responseService.getSingleResult(insertData(imageIndexDTO));
-
-
-
+            return responseService.getSingleResult(insertData(imageIndexDTO));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return responseService.getFailResult();
     }
-
-    int i = 0;
 
     public boolean insertData(ImageIndexDTO imageIndexDTO) {
 
@@ -122,7 +110,12 @@ public class TensorflowImageIndexService {
             XContentBuilder builder = XContentFactory.jsonBuilder();
             builder.startObject();
             {
-                builder.field("feature", ImageToVectorTensorflow.getVector(imageIndexDTO));
+                builder.field("feature", ImageToVectorTensorflow.getVector(VectorDTO.builder()
+                        .tensorApiUrl(tensorApi + "/api")
+                        .dirPath(uploadDir)
+                        .file(imageIndexDTO.getFile())
+                        .type("I")
+                        .build()));
                 builder.field("image_id", imageIndexDTO.getImageId());
                 builder.field("image_name", imageIndexDTO.getImageName());
             }
@@ -147,12 +140,8 @@ public class TensorflowImageIndexService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
         return true;
     }
-
 
     public void getIndexer() {
 

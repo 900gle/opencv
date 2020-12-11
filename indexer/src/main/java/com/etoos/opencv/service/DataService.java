@@ -71,7 +71,6 @@ public class DataService {
 
         try {
 
-
             SearchRequest searchRequest = new SearchRequest();
             searchRequest.indices(getAlias(indexType));
             SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -105,13 +104,10 @@ public class DataService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return responseService.getFailResult();
-
     }
 
     public CommonResult deleteData(String indexType, String documentId) {
-
         try {
 
             String indexName = getAlias(indexType);
@@ -133,11 +129,7 @@ public class DataService {
             e.getStackTrace();
         }
 
-
-
         return responseService.getSuccessResult();
-
-
     }
 
 

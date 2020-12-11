@@ -39,6 +39,10 @@ aws:
     key-name: system/images
     local-file-save-path: ${HOME}
 file:
-  upload_dir: ./images
-
-
+  dir:
+    upload: ${HOME}/project/opencv/web/src/main/resources/static/images/
+    temp: ${HOME}/project/opencv/common/temp/
+    home: ${HOME}
+tensor:
+  api:
+    url: http://127.0.0.1:5000

@@ -1,8 +1,8 @@
 package com.etoos.opencv.service;
 
-import com.etoos.opencv.component.ImageToVector;
 import com.etoos.opencv.component.ImageToVectorTensorflow;
 import com.etoos.opencv.dto.ImageSearchDTO;
+import com.etoos.opencv.dto.VectorDTO;
 import com.etoos.opencv.model.response.CommonResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +15,7 @@ import org.elasticsearch.index.query.functionscore.ScriptScoreQueryBuilder;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,6 +26,12 @@ import java.util.*;
 @RequiredArgsConstructor
 public class TensorflowImageSearchService {
 
+    @Value("${file.dir.temp}")
+    private String tempDir;
+
+    @Value("${tensor.api.url}")
+    private String tensorApi;
+
     private final ResponseService responseService;
     private final RestHighLevelClient client;
     private final String ALIAS = "tensor_images";
@@ -32,8 +39,14 @@ public class TensorflowImageSearchService {
     public CommonResult getImages(ImageSearchDTO imageSearchDTO) {
 
         try {
-
-            Vector<Double> vectors = ImageToVectorTensorflow.getVector(imageSearchDTO);
+            Vector<Double> vectors = ImageToVectorTensorflow.getVector(
+                    VectorDTO.builder()
+                            .tensorApiUrl(tensorApi + "/api")
+                            .file(imageSearchDTO.getFile())
+                            .dirPath(tempDir)
+                            .type("S")
+                            .build()
+            );
 
             SearchRequest searchRequest = new SearchRequest();
             searchRequest.indices(ALIAS);
